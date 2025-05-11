@@ -1,0 +1,13 @@
+Forester Word	NASM Equivalent	Hex	Binary
+add	ADD r/m64, r64	0x300	110000000
+sub	SUB r/m64, r64	0x301	110000001
+mul	IMUL r64, r/m64	0x302	110000010
+div	DIV r/m64	0x303	110000011
+cmp	CMP r/m64, r64	0x304	110000100
+jmp	JMP label	0x305	110000101
+call	CALL label	0x306	110000110
+ret	RET	0x307	110000111
+print	CALL puts (or syscall)	0x308	110001000
+input	CALL scanf (or syscall)	0x309	110001001
+push	PUSH r64	0x30A	110001010
+pop	POP r64	0x30B	110001011
