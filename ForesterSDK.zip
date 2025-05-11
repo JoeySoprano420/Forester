@@ -1,0 +1,7 @@
+/ForesterSDK
+├── forester_compiler_v2.py
+├── example.fstr
+├── build_forester.bat
+├── forester.tmLanguage.json
+├── README.txt
+└── nasm.exe  ← optional (portable)
