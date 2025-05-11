@@ -1,0 +1,26 @@
+# Example: Forester Language Sample
+# Features: Flow Control, Arithmetic, Macros, Output
+
+Start
+|math_macro|
+    a = 5;
+    b = 3;
+    c = a + b;
+    d = c * 2;
+    Return d;
+|
+
+|conditional_check|
+    result = |math_macro|;
+    if result > 10:
+        message = "Greater than ten";
+    else:
+        message = "Ten or less";
+    Return message;
+|
+
+|main_program|
+    Init output;
+    output = |conditional_check|;
+    print(output);
+Return;
