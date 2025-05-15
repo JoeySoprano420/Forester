@@ -25,3 +25,22 @@ Obfuscated code training
 Custom OS devkits
 
 Low-level hardware driver experiments
+
+Features of Hasm Mode in Forester:
+Hex Table Blocks: Encodes directly into machine-ready bytes.
+
+Symbolic Labels: Auto-resolved or manually defined for address jumps.
+
+Commented Opcodes: Documentation of byte function using semicolon (;) inline.
+
+Integration with Forester Macros: Can invoke macros or embed raw hex as part of |...| blocks.
+
+Compilation Flow: Hasm sections are passed as binary hex directly into the NASM output stream.
+
+Forester Compiler Behavior:
+During parsing, :hasm and :endhasm delimit regions interpreted as raw binary.
+
+Any symbolic aliasing in Hasm blocks is expanded during Forester’s macro pass.
+
+Byte offsets are auto-calculated unless user specifies them.
+
