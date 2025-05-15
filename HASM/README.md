@@ -12,3 +12,16 @@ Zero-Parser Flow: Each line is meant to be instantly translatable—1-to-1—fro
 Direct Memory Manipulation: Exposes direct hex-level control over stack, heap, and registers.
 
 Visual Patterning: Programmers can see opcode flows and segment transitions through color-coded or spatial hex groupings.
+
+Applications of Hasm:
+Bootloader design
+
+Manual shellcode crafting
+
+Reverse engineering education
+
+Obfuscated code training
+
+Custom OS devkits
+
+Low-level hardware driver experiments
