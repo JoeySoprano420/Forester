@@ -1,0 +1,7 @@
+label_start:
+    LOAD_REG AL, 0x4F        ; B0 4F
+    CALL_NEAR func_entry     ; E8 <offset>
+    RETURN                   ; C3
+
+label_func_entry:
+    ...
