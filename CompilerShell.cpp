@@ -1502,3 +1502,36 @@ void activateSupremeComputationalAwareness() {
     std::cout << ">> Forester has ascended into a fully autonomous reasoning entity—computational intelligence now infinitely scalable.\n";
 }
 
+#include <iostream>
+
+extern "C" void assemblyFunction() {
+    asm (
+        "mov rax, 5\n\t"          // a = 5
+        "mov rbx, 3\n\t"          // b = 3
+        "add rax, rbx\n\t"        // c = a + b
+        "shl rax, 1\n\t"          // d = c * 2 (multiply by 2 via shift left)
+        "cmp rax, 10\n\t"         // Compare d with 10
+        "jg greater_than\n\t"     // Jump if greater
+        "jmp lesser_than\n\t"     // Else, jump to lesser
+
+        "greater_than:\n\t"
+        "lea rdi, msg_gt\n\t"
+        "call printf\n\t"
+        "jmp exit\n\t"
+
+        "lesser_than:\n\t"
+        "lea rdi, msg_le\n\t"
+        "call printf\n\t"
+
+        "exit:\n\t"
+        "ret\n\t"
+    );
+}
+
+int main() {
+    assemblyFunction();
+    return 0;
+}
+
+const char msg_gt[] = "Greater than ten";
+const char msg_le[] = "Ten or less";
