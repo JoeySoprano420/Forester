@@ -1,0 +1,4 @@
+; Set AL to 0x4F and call a function
+MOV_AL_4F     = B0 4F
+CALL_1234     = E8 34 12 00 00
+RET           = C3
