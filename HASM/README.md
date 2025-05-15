@@ -44,3 +44,19 @@ Any symbolic aliasing in Hasm blocks is expanded during Forester’s macro pass.
 
 Byte offsets are auto-calculated unless user specifies them.
 
+Keyboard Sequences (Gesture-Glyphs)
+
+Special sequences trigger specific operations:
+
+F+H → Forge Hasm
+
+S+R → Scroll & Run
+
+V+X+X → Void Hex Output
+
+Live Scroll Pane
+
+The .fstr file unrolls visually in a scroll format. You move through sections like exploring a dungeon, left to right, rune by rune.
+
+Can include word-swapping ("inscribe"), back-burning ("undo"), and glyph-sealing ("save").
+
