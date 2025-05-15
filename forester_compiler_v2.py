@@ -920,3 +920,52 @@ shutil.make_archive(zip_path_final.replace('.zip', ''), 'zip', "/mnt/data/VACU-H
 
 zip_path_final
 
+import os
+import zipfile
+
+# Directory structure for expanded Forester SDK
+sdk_structure = {
+    "ForesterSDK": [
+        "forester_compiler_v2.py",
+        "example.fstr",
+        "build_forester.bat",
+        "forester.tmLanguage.json",
+        "nasm.exe",  # Optional
+        "README.txt"
+    ],
+    "ForesterSDK/examples/advanced": [
+        "loops.fstr",
+        "math.fstr",
+        "ciams_demo.fstr",
+        "string_out.fstr"
+    ],
+    "ForesterSDK/libs": [
+        "math.ciams",
+        "string_utils.ciams",
+        "io_base.ciams"
+    ],
+    "ForesterSDK/docs": [
+        "Forester_Language_Manifesto.txt"
+    ],
+    "ForesterSDK/intermediate": [
+        "output.fir"
+    ]
+}
+
+# Create files and folders for demonstration
+for folder, files in sdk_structure.items():
+    os.makedirs(folder, exist_ok=True)
+    for filename in files:
+        filepath = os.path.join(folder, filename)
+        with open(filepath, 'w') as f:
+            f.write(f"// Placeholder for {filename}\n")
+
+# Create a zip file of the expanded SDK
+zip_path = "/mnt/data/ForesterSDK_Expanded.zip"
+with zipfile.ZipFile(zip_path, 'w') as zipf:
+    for folder, files in sdk_structure.items():
+        for filename in files:
+            filepath = os.path.join(folder, filename)
+            zipf.write(filepath, arcname=os.path.join(folder, filename))
+
+zip_path
