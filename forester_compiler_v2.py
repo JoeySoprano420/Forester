@@ -388,3 +388,124 @@ with open(cpp_extended_path, "w") as cpp_file:
 
 cpp_extended_path
 
+# Create a macro file template
+macro_file_content = """\
+; Macro substitutions for Hasm mode
+CALL_RET    E8 05 00 00 00
+LOAD_AL     B0 4F
+RETURN      C3
+"""
+
+macro_file_path = "/mnt/data/hasm_macros.txt"
+with open(macro_file_path, "w") as macro_file:
+    macro_file.write(macro_file_content)
+
+# Create a unit test suite for Hasm compiler functionality (C++ style pseudotest)
+unit_test_content = R"""#include <cassert>
+#include <iostream>
+#include <vector>
+#include <string>
+
+// Dummy test harness
+void test_tokenizer() {
+    std::string line = "[0000] B0 4F ; MOV AL, 0x4F";
+    std::vector<std::string> tokens;
+    std::istringstream iss(line);
+    std::string token;
+    while (iss >> token) {
+        if (token[0] == ';') break;
+        if (token.find('[') != std::string::npos || token.find(']') != std::string::npos) continue;
+        tokens.push_back(token);
+    }
+    assert(tokens.size() == 2);
+    assert(tokens[0] == "B0");
+    assert(tokens[1] == "4F");
+    std::cout << "test_tokenizer passed\n";
+}
+
+void test_macro_substitution() {
+    std::string line = "LOAD_AL ; macro";
+    std::unordered_map<std::string, std::string> macros = { {"LOAD_AL", "B0 4F"} };
+    for (const auto& [key, val] : macros) {
+        if (line.find(key) != std::string::npos) {
+            line = std::regex_replace(line, std::regex(key), val);
+        }
+    }
+    assert(line.find("B0 4F") != std::string::npos);
+    std::cout << "test_macro_substitution passed\n";
+}
+
+int main() {
+    test_tokenizer();
+    test_macro_substitution();
+    return 0;
+}
+"""
+
+unit_test_path = "/mnt/data/hasm_tests.cpp"
+with open(unit_test_path, "w") as test_file:
+    test_file.write(unit_test_content)
+
+(macro_file_path, unit_test_path)
+
+# Create folder structure and wrapper scripts for VACU SDK toolchain integration
+
+# 1. SDK folder and substructure
+sdk_structure = {
+    "VACU-SDK/compilers": ["hasm_compiler_extended.cpp", "hasm_tests.cpp", "Makefile"],
+    "VACU-SDK/examples": ["forester_hasm_sample.fstr", "hasm_macros.txt"],
+    "VACU-SDK/docs": ["README.txt"],
+    "VACU-SDK/scripts": ["build_and_run.bat", "build_and_run.sh"],
+}
+
+# 2. Command-line wrapper scripts
+bat_script = """@echo off
+echo Building Hasm Compiler...
+make
+echo Running Compiler...
+hasm_compiler forester_hasm_sample.fstr hasm_macros.txt
+echo Output written to output.bin, output.asm, debug.log
+pause
+"""
+
+sh_script = """#!/bin/bash
+echo "Building Hasm Compiler..."
+make
+echo "Running Compiler..."
+./hasm_compiler forester_hasm_sample.fstr hasm_macros.txt
+echo "Output written to output.bin, output.asm, debug.log"
+"""
+
+readme_text = """VACU SDK - Forester + Hasm Toolchain
+
+Folder Structure:
+- compilers: C++ source files and Makefile
+- examples: Sample Forester + Hasm source and macro files
+- docs: Documentation
+- scripts: Helper scripts for Windows (.bat) and Unix (.sh)
+
+To Build and Run:
+1. Navigate to VACU-SDK/compilers
+2. Run the appropriate script from the scripts/ directory
+
+Requirements:
+- g++ compiler
+- make
+"""
+
+# Write scripts and docs
+with open("/mnt/data/build_and_run.bat", "w") as bat:
+    bat.write(bat_script)
+
+with open("/mnt/data/build_and_run.sh", "w") as sh:
+    sh.write(sh_script)
+
+with open("/mnt/data/README.txt", "w") as readme:
+    readme.write(readme_text)
+
+["/mnt/data/build_and_run.bat", "/mnt/data/build_and_run.sh", "/mnt/data/README.txt"]
+
+→ The Ritual of Compilation begins...
+→ Hex Binding complete: 34 bytes burned into the bin.
+→ Anomaly in line 3: ‘CALL_RET’ misaligned with memory ward.
+
