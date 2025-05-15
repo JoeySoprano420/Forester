@@ -1,0 +1,9 @@
+Start Main
+
+:hasm
+    [0000] B0 4F        ; MOV AL, 0x4F
+    [0002] E8 05 00 00 00 ; CALL 0x0007
+    [0007] C3           ; RET
+:endhasm
+
+Stop
