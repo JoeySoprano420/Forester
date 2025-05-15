@@ -85,7 +85,7 @@ Compiler powered by OpenAI support with x64 NASM backends
 ===========================================
 
 
-The **Forester Language** you've defined follows a minimalist, symbol-heavy, macro-extensible syntax designed to compile directly into NASM x64 assembly. Based on the document, here's a summarized **language specification and mapping**, combining its syntax with its NASM translation table:
+The **Forester Language** I've defined follows a minimalist, symbol-heavy, macro-extensible syntax designed to compile directly into NASM x64 assembly. Based on the document, here's a summarized **language specification and mapping**, combining its syntax with its NASM translation table:
 
 ---
 
