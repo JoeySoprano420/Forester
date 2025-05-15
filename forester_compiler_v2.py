@@ -217,3 +217,174 @@ with open(cpp_path, "w") as cpp_file:
 
 cpp_path
 
+makefile_content = """\
+# Makefile for Hasm Compiler
+CXX = g++
+CXXFLAGS = -std=c++17 -O2 -Wall
+
+TARGET = hasm_compiler
+SRC = hasm_compiler.cpp
+
+all: $(TARGET)
+
+$(TARGET): $(SRC)
+\t$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)
+
+clean:
+\trm -f $(TARGET) output.asm output.bin
+"""
+
+makefile_path = "/mnt/data/Makefile"
+with open(makefile_path, "w") as mf:
+    mf.write(makefile_content)
+
+makefile_path
+
+# Update the C++ compiler backend to include:
+# - Label resolution
+# - Macro substitution (from a hypothetical .macro file)
+# - Debug logging for each parsed byte
+
+cpp_extended_code = R"""#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <iomanip>
+#include <regex>
+
+void write_bin(const std::vector<uint8_t>& bytes, const std::string& filename) {
+    std::ofstream binout(filename, std::ios::binary);
+    for (auto b : bytes) binout.put(static_cast<char>(b));
+    binout.close();
+}
+
+void write_asm(const std::vector<std::string>& asm_lines, const std::string& filename) {
+    std::ofstream asmout(filename);
+    for (const auto& line : asm_lines) asmout << line << std::endl;
+    asmout.close();
+}
+
+void write_log(const std::vector<std::string>& logs, const std::string& filename) {
+    std::ofstream logout(filename);
+    for (const auto& log : logs) logout << log << std::endl;
+    logout.close();
+}
+
+std::vector<std::string> tokenize_hex(const std::string& line) {
+    std::vector<std::string> tokens;
+    std::istringstream iss(line);
+    std::string token;
+    while (iss >> token) {
+        if (token[0] == ';') break;
+        if (token.find('[') != std::string::npos || token.find(']') != std::string::npos) continue;
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+void load_macros(const std::string& filename, std::unordered_map<std::string, std::string>& macros) {
+    std::ifstream infile(filename);
+    std::string line;
+    while (std::getline(infile, line)) {
+        std::istringstream iss(line);
+        std::string key, val;
+        if (iss >> key >> val) {
+            macros[key] = val;
+        }
+    }
+    infile.close();
+}
+
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        std::cerr << "Usage: hasm_compiler <input.fstr> [macros.txt]" << std::endl;
+        return 1;
+    }
+
+    std::string input_file = argv[1];
+    std::unordered_map<std::string, std::string> macros;
+    if (argc >= 3) {
+        load_macros(argv[2], macros);
+    }
+
+    std::ifstream infile(input_file);
+    if (!infile) {
+        std::cerr << "Error opening file: " << input_file << std::endl;
+        return 1;
+    }
+
+    std::string line;
+    bool in_hasm = false;
+    std::vector<uint8_t> bin_output;
+    std::vector<std::string> asm_output;
+    std::vector<std::string> debug_log;
+    std::unordered_map<std::string, size_t> labels;
+    std::vector<std::pair<size_t, std::string>> unresolved;
+
+    size_t byte_offset = 0;
+    while (std::getline(infile, line)) {
+        std::string trimmed = line;
+        trimmed.erase(0, trimmed.find_first_not_of(" \t\r\n"));
+        if (trimmed == ":hasm") { in_hasm = true; continue; }
+        if (trimmed == ":endhasm") { in_hasm = false; continue; }
+
+        if (in_hasm) {
+            if (trimmed.back() == ':') {
+                std::string label = trimmed.substr(0, trimmed.size() - 1);
+                labels[label] = byte_offset;
+                continue;
+            }
+
+            for (const auto& [key, val] : macros) {
+                if (line.find(key) != std::string::npos) {
+                    line = std::regex_replace(line, std::regex(key), val);
+                }
+            }
+
+            asm_output.push_back(line);
+            auto tokens = tokenize_hex(line);
+            for (const auto& token : tokens) {
+                if (labels.count(token)) {
+                    uint8_t addr = static_cast<uint8_t>(labels[token]);
+                    bin_output.push_back(addr);
+                    debug_log.push_back("Resolved label " + token + " -> " + std::to_string(addr));
+                } else if (std::regex_match(token, std::regex("^[0-9A-Fa-f]{2}$"))) {
+                    uint8_t byte = static_cast<uint8_t>(std::stoi(token, nullptr, 16));
+                    bin_output.push_back(byte);
+                    debug_log.push_back("Parsed byte " + token + " -> " + std::to_string(byte));
+                } else {
+                    unresolved.emplace_back(byte_offset, token);
+                    bin_output.push_back(0x00); // placeholder
+                    debug_log.push_back("Unresolved symbol " + token + " at offset " + std::to_string(byte_offset));
+                }
+                ++byte_offset;
+            }
+        }
+    }
+
+    for (auto& [offset, symbol] : unresolved) {
+        if (labels.count(symbol)) {
+            bin_output[offset] = static_cast<uint8_t>(labels[symbol]);
+            debug_log.push_back("Backpatched " + symbol + " at " + std::to_string(offset) + " with " + std::to_string(labels[symbol]));
+        } else {
+            debug_log.push_back("Failed to resolve symbol: " + symbol);
+        }
+    }
+
+    write_bin(bin_output, "output.bin");
+    write_asm(asm_output, "output.asm");
+    write_log(debug_log, "debug.log");
+
+    std::cout << "Compilation complete: output.bin, output.asm, and debug.log generated." << std::endl;
+    return 0;
+}
+"""
+
+cpp_extended_path = "/mnt/data/hasm_compiler_extended.cpp"
+with open(cpp_extended_path, "w") as cpp_file:
+    cpp_file.write(cpp_extended_code)
+
+cpp_extended_path
+
