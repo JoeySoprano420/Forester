@@ -1535,3 +1535,60 @@ int main() {
 
 const char msg_gt[] = "Greater than ten";
 const char msg_le[] = "Ten or less";
+
+#include <iostream>
+
+void processValues() {
+    int a = 5;
+    int b = 3;
+    int c = a + b;
+    int d = c * 2; // Multiply by 2 via shift left
+
+    if (d > 10) {
+        std::cout << "Greater than ten" << std::endl;
+    } else {
+        std::cout << "Ten or less" << std::endl;
+    }
+}
+
+int main() {
+    processValues();
+    return 0;
+}
+
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <emmintrin.h> // SIMD acceleration
+
+void processValuesSIMD() {
+    // Vectorized operations using SIMD
+    __m128i a = _mm_set1_epi32(5);
+    __m128i b = _mm_set1_epi32(3);
+    __m128i c = _mm_add_epi32(a, b);
+    __m128i d = _mm_slli_epi32(c, 1); // Multiply by 2 via shift left
+    
+    int result[4];
+    _mm_storeu_si128((__m128i*)result, d);
+
+    if (result[0] > 10) {
+        std::cout << "Greater than ten" << std::endl;
+    } else {
+        std::cout << "Ten or less" << std::endl;
+    }
+}
+
+void threadedProcessing() {
+    std::vector<std::thread> threads;
+    for (int i = 0; i < 4; ++i) {
+        threads.emplace_back(processValuesSIMD);
+    }
+    for (auto &t : threads) {
+        t.join();
+    }
+}
+
+int main() {
+    threadedProcessing();
+    return 0;
+}
