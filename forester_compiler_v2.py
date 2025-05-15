@@ -509,3 +509,414 @@ with open("/mnt/data/README.txt", "w") as readme:
 → Hex Binding complete: 34 bytes burned into the bin.
 → Anomaly in line 3: ‘CALL_RET’ misaligned with memory ward.
 
+# Generate the files requested:
+# 1. HUI Engine Shell in C++
+# 2. Sample Scroll-Narrative Interaction File
+# 3. Sigil System Design Document
+
+# ------------------------
+# 1. C++ HUI Engine Shell
+# ------------------------
+hui_engine_code = R"""#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+void display_banner() {
+    std::cout << "╔════════════════════════════════════╗\n";
+    std::cout << "║   VIOLET AURA COMPILER RITE       ║\n";
+    std::cout << "║     [HUI v0.1 – Hybrid Shell]     ║\n";
+    std::cout << "╚════════════════════════════════════╝\n";
+    std::cout << "   Forge your command sigils below\n";
+}
+
+void display_sigil_menu() {
+    std::cout << "\nAvailable Sigils:\n";
+    std::cout << "  [⚒️] F+H – Forge Hasm (Compile)\n";
+    std::cout << "  [✒️] S+T – Scroll Test (Run Tests)\n";
+    std::cout << "  [📜] S+R – Scroll & Run (Compile + Run)\n";
+    std::cout << "  [🔥] V+X+X – Void Hex Output (Clean)\n";
+    std::cout << "  [❌] Q – Quit\n\n";
+}
+
+void perform_action(const std::string& sigil) {
+    if (sigil == "F+H") {
+        std::cout << "→ The Ritual of Compilation begins...\n";
+        std::system("make && ./hasm_compiler forester_hasm_sample.fstr hasm_macros.txt");
+    } else if (sigil == "S+T") {
+        std::cout << "→ Inscribing sacred test scrolls...\n";
+        std::system("g++ -std=c++17 -o hasm_tests hasm_tests.cpp && ./hasm_tests");
+    } else if (sigil == "S+R") {
+        std::cout << "→ The Scroll is drawn, and the Hex ignites...\n";
+        std::system("make && ./hasm_compiler forester_hasm_sample.fstr hasm_macros.txt && cat output.asm");
+    } else if (sigil == "V+X+X") {
+        std::cout << "→ Hex voided. Output ashes scattered.\n";
+        std::system("rm -f output.* debug.log");
+    } else {
+        std::cout << "→ Unknown sigil. No effect.\n";
+    }
+}
+
+int main() {
+    display_banner();
+    display_sigil_menu();
+    std::string input;
+    while (true) {
+        std::cout << "[Rune]> ";
+        std::getline(std::cin, input);
+        if (input == "Q" || input == "q") break;
+        perform_action(input);
+    }
+    std::cout << "→ The compiler rites are sealed.\n";
+    return 0;
+}
+"""
+
+# ------------------------
+# 2. Scroll-Narrative File
+# ------------------------
+scroll_narrative = """\
+~*~ The Scroll of Hex Binding ~*~
+
+You, Compiler Ritualist, hold the sacred lines:
+
+:hasm
+    LOAD_AL             ; Load Accumulator with 0x4F
+    CALL_RET            ; Call to the return chamber
+    RETURN              ; Exit from ritual gate
+:endhasm
+
+Beneath this parchment, flames await.
+Your action will ignite the pattern.
+
+Inscribe your will by selecting a Sigil.
+"""
+
+# ------------------------
+# 3. Sigil System Description
+# ------------------------
+sigil_design_doc = """\
+VACU Sigil System – Symbolic Command Glyphs
+
+[⚒️] F+H : "Forge Hasm" – Compile Hasm code into binary form.
+[✒️] S+T : "Scroll Test" – Run the test scrolls on parser and macros.
+[📜] S+R : "Scroll & Run" – Compile and then display output.asm.
+[🔥] V+X+X : "Void Hex Output" – Delete compiled artifacts and logs.
+[❌] Q : "Quit" – Exit HUI ritual loop.
+
+Sigils are typed combinations, not single letters.
+They form a symbolic command language via capital+punctuation gestures.
+
+This system is meant to feel tactile, story-like, and ceremonial.
+"""
+
+# File paths
+hui_cpp_path = "/mnt/data/vacu_hui.cpp"
+scroll_path = "/mnt/data/scroll_narrative.txt"
+sigil_path = "/mnt/data/sigil_system.txt"
+
+# Write files
+with open(hui_cpp_path, "w") as f:
+    f.write(hui_engine_code)
+
+with open(scroll_path, "w") as f:
+    f.write(scroll_narrative)
+
+with open(sigil_path, "w") as f:
+    f.write(sigil_design_doc)
+
+[hui_cpp_path, scroll_path, sigil_path]
+
+# Create the files for:
+# - Keyboard Glyph Overlay Guide
+# - Sound Effect Trigger Mapping
+# - ASCII-based Rune Animation Stubs
+
+# 1. Keyboard Glyph Overlay Guide
+keyboard_overlay = """\
+VACU HUI – Keyboard Glyph Overlay Guide
+
+These combinations are symbolic gestures:
+
++------+---------------------------+
+| Key  | Glyph Meaning             |
++------+---------------------------+
+|  F+H | ⚒️ Forge Hasm             |
+|  S+T | ✒️ Scroll Test            |
+|  S+R | 📜 Scroll & Run           |
+| V+X+X| 🔥 Void Hex Output        |
+|  Q   | ❌ Quit                   |
++------+---------------------------+
+
+To use:
+- Type exactly as shown (capital + symbol if required).
+- The system will match gesture inputs to rituals.
+
+Use your keyboard like a spellcasting conduit.
+"""
+
+# 2. Sound Effects / MIDI Feedback Mapping
+sound_mapping = """\
+VACU HUI – Sigil Sound Feedback Mapping
+
+[⚒️] F+H : Play "anvil_strike.wav"
+[✒️] S+T : Play "quill_scratch.wav"
+[📜] S+R : Play "scroll_unfurl.wav"
+[🔥] V+X+X : Play "fire_crack.wav"
+[❌] Q : Play "ritual_close.wav"
+
+Optional MIDI Notes:
+- F+H : C3 (Percussive Anvil)
+- S+T : D#4 (Light Wood Tap)
+- S+R : A2 (Scroll Wind)
+- V+X+X : G#1 (Fire Sizzle)
+- Q : B3 (Closure Bell)
+"""
+
+# 3. ASCII Rune Animation Stub
+ascii_runes = """\
+VACU HUI – ASCII Rune Compilation Animations
+
+Forge Hasm:
+  [⚒️] 
+    --> [░░▒▒▓▓█] Compiling...
+    --> [✓] Hex Bound to Scroll
+
+Scroll Test:
+  [✒️] 
+    --> [..///***] Running rituals...
+    --> [✓] Glyphs validated
+
+Scroll & Run:
+  [📜]
+    --> [~ ~ ~] The scroll breathes...
+    --> [output.asm shown]
+
+Void Hex Output:
+  [🔥]
+    --> [#######] Scattering ashes...
+    --> [ ] Cleaned
+
+Each animation can be timed to display with progressive effect.
+"""
+
+# File paths
+overlay_path = "/mnt/data/keyboard_overlay.txt"
+sound_path = "/mnt/data/sound_mapping.txt"
+ascii_path = "/mnt/data/ascii_runes.txt"
+
+# Write all files
+with open(overlay_path, "w") as f:
+    f.write(keyboard_overlay)
+
+with open(sound_path, "w") as f:
+    f.write(sound_mapping)
+
+with open(ascii_path, "w") as f:
+    f.write(ascii_runes)
+
+[overlay_path, sound_path, ascii_path]
+
+# Prepare embedded ASCII animations and sound triggers inside an updated HUI engine (C++)
+# Package everything into a ready-to-zip structure for .zip and .exe creation later
+
+# C++ HUI engine with embedded ASCII animations and optional sound triggers (cross-platform stubbed)
+hui_animated_cpp = R"""#include <iostream>
+#include <string>
+#include <thread>
+#include <chrono>
+#include <cstdlib>
+
+void pause_display(int ms) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
+
+void animation_compile() {
+    std::string frames[] = { "░", "░░", "▒▒", "▓▓", "██", "[✓] Hex Bound" };
+    for (const auto& frame : frames) {
+        std::cout << "   " << frame << std::endl;
+        pause_display(250);
+    }
+}
+
+void animation_scroll() {
+    std::string frames[] = { "~", "~ ~", "~ ~ ~", "[Scroll Breathes]", "[✓]" };
+    for (const auto& frame : frames) {
+        std::cout << "   " << frame << std::endl;
+        pause_display(300);
+    }
+}
+
+void animation_test() {
+    std::string frames[] = { "..", "../", "//", "**", "[✓ Glyphs Validated]" };
+    for (const auto& frame : frames) {
+        std::cout << "   " << frame << std::endl;
+        pause_display(200);
+    }
+}
+
+void animation_clean() {
+    std::string frames[] = { "#####", "####", "###", "##", "#", "[Cleaned]" };
+    for (const auto& frame : frames) {
+        std::cout << "   " << frame << std::endl;
+        pause_display(150);
+    }
+}
+
+void play_sound(const std::string& effect) {
+#ifdef _WIN32
+    std::string cmd = "powershell -c (New-Object Media.SoundPlayer '" + effect + "').PlaySync();";
+    system(cmd.c_str());
+#else
+    std::string cmd = "afplay " + effect + " &> /dev/null";
+    system(cmd.c_str());
+#endif
+}
+
+void display_banner() {
+    std::cout << "╔════════════════════════════════════╗\n";
+    std::cout << "║   VIOLET AURA COMPILER RITE       ║\n";
+    std::cout << "║     [HUI v0.2 – Hybrid Shell]     ║\n";
+    std::cout << "╚════════════════════════════════════╝\n";
+    std::cout << "   Forge your command sigils below\n";
+}
+
+void display_sigil_menu() {
+    std::cout << "\nAvailable Sigils:\n";
+    std::cout << "  [⚒️] F+H – Forge Hasm (Compile)\n";
+    std::cout << "  [✒️] S+T – Scroll Test (Run Tests)\n";
+    std::cout << "  [📜] S+R – Scroll & Run (Compile + Run)\n";
+    std::cout << "  [🔥] V+X+X – Void Hex Output (Clean)\n";
+    std::cout << "  [❌] Q – Quit\n\n";
+}
+
+void perform_action(const std::string& sigil) {
+    if (sigil == "F+H") {
+        std::cout << "→ The Ritual of Compilation begins...\n";
+        animation_compile();
+        play_sound("anvil_strike.wav");
+        std::system("make && ./hasm_compiler forester_hasm_sample.fstr hasm_macros.txt");
+    } else if (sigil == "S+T") {
+        std::cout << "→ Inscribing sacred test scrolls...\n";
+        animation_test();
+        play_sound("quill_scratch.wav");
+        std::system("g++ -std=c++17 -o hasm_tests hasm_tests.cpp && ./hasm_tests");
+    } else if (sigil == "S+R") {
+        std::cout << "→ The Scroll is drawn, and the Hex ignites...\n";
+        animation_scroll();
+        play_sound("scroll_unfurl.wav");
+        std::system("make && ./hasm_compiler forester_hasm_sample.fstr hasm_macros.txt && cat output.asm");
+    } else if (sigil == "V+X+X") {
+        std::cout << "→ Hex voided. Output ashes scattered.\n";
+        animation_clean();
+        play_sound("fire_crack.wav");
+        std::system("rm -f output.* debug.log");
+    } else {
+        std::cout << "→ Unknown sigil. No effect.\n";
+    }
+}
+
+int main() {
+    display_banner();
+    display_sigil_menu();
+    std::string input;
+    while (true) {
+        std::cout << "[Rune]> ";
+        std::getline(std::cin, input);
+        if (input == "Q" || input == "q") break;
+        perform_action(input);
+    }
+    std::cout << "→ The compiler rites are sealed.\n";
+    play_sound("ritual_close.wav");
+    return 0;
+}
+"""
+
+animated_cpp_path = "/mnt/data/vacu_hui_animated.cpp"
+with open(animated_cpp_path, "w") as f:
+    f.write(hui_animated_cpp)
+
+animated_cpp_path
+
+import shutil
+
+# Define bundle directory and files to include
+bundle_dir = "/mnt/data/VACU-HUI-SDK"
+files_to_bundle = {
+    "vacu_hui_animated.cpp": bundle_dir + "/compilers/vacu_hui_animated.cpp",
+    "hasm_compiler_extended.cpp": bundle_dir + "/compilers/hasm_compiler_extended.cpp",
+    "hasm_tests.cpp": bundle_dir + "/compilers/hasm_tests.cpp",
+    "Makefile": bundle_dir + "/compilers/Makefile",
+    "forester_hasm_sample.fstr": bundle_dir + "/examples/forester_hasm_sample.fstr",
+    "hasm_macros.txt": bundle_dir + "/examples/hasm_macros.txt",
+    "scroll_narrative.txt": bundle_dir + "/docs/scroll_narrative.txt",
+    "sigil_system.txt": bundle_dir + "/docs/sigil_system.txt",
+    "keyboard_overlay.txt": bundle_dir + "/docs/keyboard_overlay.txt",
+    "sound_mapping.txt": bundle_dir + "/docs/sound_mapping.txt",
+    "ascii_runes.txt": bundle_dir + "/docs/ascii_runes.txt",
+    "build_and_run.bat": bundle_dir + "/scripts/build_and_run.bat",
+    "build_and_run.sh": bundle_dir + "/scripts/build_and_run.sh",
+    "README.txt": bundle_dir + "/docs/README.txt"
+}
+
+# Copy files to appropriate structure
+for src, dest in files_to_bundle.items():
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    shutil.copy(f"/mnt/data/{src}", dest)
+
+# Create the zip archive
+zip_path = "/mnt/data/VACU-HUI-SDK.zip"
+shutil.make_archive("/mnt/data/VACU-HUI-SDK", 'zip', bundle_dir)
+
+zip_path
+
+# Create a Windows batch script that simulates an .exe launcher
+# It will:
+# - Compile the HUI engine
+# - Run it directly
+# - Simulate sound folder and expected files
+
+exe_sim_batch = """@echo off
+echo Initializing VACU HUI Engine...
+cd compilers
+g++ -std=c++17 -o vacu_hui vacu_hui_animated.cpp
+if %errorlevel% neq 0 (
+    echo Compilation failed. Exiting.
+    pause
+    exit /b
+)
+cd ..
+echo.
+echo Executing the Compiler Rite...
+cd compilers
+vacu_hui
+"""
+
+# Simulated sound files (placeholders for real .wav content)
+sound_files = {
+    "anvil_strike.wav": "WAV_STUB_ANVIL",
+    "quill_scratch.wav": "WAV_STUB_QUILL",
+    "scroll_unfurl.wav": "WAV_STUB_SCROLL",
+    "fire_crack.wav": "WAV_STUB_FIRE",
+    "ritual_close.wav": "WAV_STUB_CLOSE"
+}
+
+# Write the startup batch
+exe_launcher_path = "/mnt/data/VACU-HUI-SDK/scripts/launch_hui.bat"
+os.makedirs(os.path.dirname(exe_launcher_path), exist_ok=True)
+with open(exe_launcher_path, "w") as f:
+    f.write(exe_sim_batch)
+
+# Create dummy sound folder and add stubs
+sound_folder = "/mnt/data/VACU-HUI-SDK/sound"
+os.makedirs(sound_folder, exist_ok=True)
+for filename, content in sound_files.items():
+    with open(os.path.join(sound_folder, filename), "w") as sf:
+        sf.write(content)
+
+# Repackage with launcher and sound files
+zip_path_final = "/mnt/data/VACU-HUI-SDK-INSTALLER.zip"
+shutil.make_archive(zip_path_final.replace('.zip', ''), 'zip', "/mnt/data/VACU-HUI-SDK")
+
+zip_path_final
+
