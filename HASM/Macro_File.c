@@ -1,0 +1,2 @@
+CALL_RET    E8 05 00 00 00
+LOAD_AL     B0 4F
